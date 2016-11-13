@@ -4,7 +4,7 @@
   "description": "educational project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "karma start -w",
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
     "lite": "lite-server",
     "tsc": "tsc",
@@ -33,6 +33,7 @@
     "@types/core-js": "^0.9.34",
     "@types/node": "^6.0.46",
     "concurrently": "^3.1.0",
+    "jasmine": "^2.5.2",
     "jasmine-core": "^2.5.2",
     "karma": "^1.3.0",
     "karma-chrome-launcher": "^2.0.0",
