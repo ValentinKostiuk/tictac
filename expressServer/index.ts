@@ -2,22 +2,53 @@ let express = require('express');
 let app = express();
 let url = require('url');
 
-//app.use(express.static('..'));
-//app.use('/', express.static('..'));
+let allowedFolders = ['/app', '/resources', '/node_modules'];
+let allowedExtensions = ['html', 'css', 'js'];
 
-app.get('/app/*', function (req, res, next) {
+function escapeRegExp (str) {
+	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+}
+
+function getIsFolderAllowedRegExp (){
+	let regexStr = '(^' + escapeRegExp('/') +'[^/]*$)|';
+	for (let i = 0; i < allowedFolders.length; i++) {
+		regexStr += '(^' + escapeRegExp(allowedFolders[i]) + '.*)|';
+	}
+	regexStr = regexStr.substring(0, regexStr.length - 1);
+	return new RegExp(regexStr, 'i');
+}
+
+function getIsExtensionAllowedRegExp (){
+	let regexStr = '(^' + escapeRegExp('/') +'$)|';
+	for (let i = 0; i < allowedExtensions.length; i++) {
+		regexStr += '(\.' + escapeRegExp(allowedExtensions[i]) + '$)|';
+	}
+	regexStr = regexStr.substring(0, regexStr.length - 1);
+	return new RegExp(regexStr, 'i');
+}
+
+let extensionsRegExp = getIsExtensionAllowedRegExp();
+let foldersRegExp = getIsFolderAllowedRegExp();
+
+function getIsValidPath(path){
+	return foldersRegExp.test(path) && extensionsRegExp.test(path);
+}
+
+function filterNotAllowedFiles(req, res, next) {
+	console.log(req.originalUrl);
 	let originalUrl = url.parse(req.originalUrl).path;
-	console.log(originalUrl);
-	if (originalUrl.slice(-3) === '.js') {
+
+	if (getIsValidPath(originalUrl)) {
 		next();
 	} else {
-		res.send('random.text');
+		res.status(404).send('File not found');
 	}
-});
+}
 
-app.use('/resources', express.static('../resources'));
-app.use('/app', express.static('../app'));
+app.get('/*', filterNotAllowedFiles);
 
-app.listen(3000, function () {
+app.use('/', express.static('./'));
+
+app.listen(3003, function () {
 	console.log('Example app listening on port 3000!');
 });
