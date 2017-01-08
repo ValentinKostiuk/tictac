@@ -1,2 +1,5 @@
 /node_modules/
 /test/test.test.js
+.idea/libraries/
+npm-debug.log.2099108941
+npm-debug.log.2406875998
