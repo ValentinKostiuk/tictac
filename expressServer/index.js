@@ -1,8 +1,11 @@
 var express = require('express');
 var app = express();
 var url = require('url');
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 var allowedFolders = ['/app', '/resources', '/node_modules'];
 var allowedExtensions = ['html', 'css', 'js'];
+var socketsRouter = require('../serverApp/socketsRouter')(server, io);
 function escapeRegExp(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 }
@@ -28,7 +31,6 @@ function getIsValidPath(path) {
     return foldersRegExp.test(path) && extensionsRegExp.test(path);
 }
 function filterNotAllowedFiles(req, res, next) {
-    console.log(req.originalUrl);
     var originalUrl = url.parse(req.originalUrl).path;
     if (getIsValidPath(originalUrl)) {
         next();
@@ -39,7 +41,7 @@ function filterNotAllowedFiles(req, res, next) {
 }
 app.get('/*', filterNotAllowedFiles);
 app.use('/', express.static('./'));
-app.listen(3003, function () {
+server.listen(3000, function () {
     console.log('Example app listening on port 3000!');
 });
 //# sourceMappingURL=index.js.map

@@ -1,16 +1,20 @@
 let express = require('express');
 let app = express();
 let url = require('url');
+let server = require('http').createServer(app);
+let io = require('socket.io')(server);
 
 let allowedFolders = ['/app', '/resources', '/node_modules'];
 let allowedExtensions = ['html', 'css', 'js'];
 
-function escapeRegExp (str) {
+let socketsRouter = require('../serverApp/socketsRouter')(server, io);
+
+function escapeRegExp(str) {
 	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 }
 
-function getIsFolderAllowedRegExp (){
-	let regexStr = '(^' + escapeRegExp('/') +'[^/]*$)|';
+function getIsFolderAllowedRegExp() {
+	let regexStr = '(^' + escapeRegExp('/') + '[^/]*$)|';
 	for (let i = 0; i < allowedFolders.length; i++) {
 		regexStr += '(^' + escapeRegExp(allowedFolders[i]) + '.*)|';
 	}
@@ -18,8 +22,8 @@ function getIsFolderAllowedRegExp (){
 	return new RegExp(regexStr, 'i');
 }
 
-function getIsExtensionAllowedRegExp (){
-	let regexStr = '(^' + escapeRegExp('/') +'$)|';
+function getIsExtensionAllowedRegExp() {
+	let regexStr = '(^' + escapeRegExp('/') + '$)|';
 	for (let i = 0; i < allowedExtensions.length; i++) {
 		regexStr += '(\.' + escapeRegExp(allowedExtensions[i]) + '$)|';
 	}
@@ -30,12 +34,11 @@ function getIsExtensionAllowedRegExp (){
 let extensionsRegExp = getIsExtensionAllowedRegExp();
 let foldersRegExp = getIsFolderAllowedRegExp();
 
-function getIsValidPath(path){
+function getIsValidPath(path) {
 	return foldersRegExp.test(path) && extensionsRegExp.test(path);
 }
 
 function filterNotAllowedFiles(req, res, next) {
-	console.log(req.originalUrl);
 	let originalUrl = url.parse(req.originalUrl).path;
 
 	if (getIsValidPath(originalUrl)) {
@@ -49,6 +52,6 @@ app.get('/*', filterNotAllowedFiles);
 
 app.use('/', express.static('./'));
 
-app.listen(3003, function () {
+server.listen(3000, function () {
 	console.log('Example app listening on port 3000!');
 });
