@@ -1,10 +1,15 @@
 'use strict';
+import Socket = SocketIO.Socket;
+import Server = SocketIO.Server;
+import {Game} from './classes/Game'
+import {SocketPlayer} from "./classes/SocketPlayer";
+import {CellStates} from "./enums/CellStates";
 
 let waitingForPair = [];
 let connectedToGame = [];
 
-module.exports = function (server, io) {
-	io.on('connection', function (socket) {
+module.exports = function (server : Server, io) {
+	io.on('connection', function (socket: Socket) {
 
 		if(~connectedToGame.indexOf(socket)){
 			console.log('already connected ignoring');
@@ -20,6 +25,9 @@ module.exports = function (server, io) {
 			partnerSocket.emit('status', {status: 'partner found'});
 			socket.emit('status', {status: 'partner found'});
 			console.log('partner found passing sockets to game');
+			var player1 = new SocketPlayer(CellStates.cross, partnerSocket);
+			var player2 = new SocketPlayer(CellStates.nought, socket);
+			var game = new Game(player1, player2);
 		}
 		connectedToGame.push(connectedToGame);
 	});

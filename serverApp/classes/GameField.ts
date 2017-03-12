@@ -1,5 +1,5 @@
 import {Cell} from './Cell'
-import {CellStates} from './CellStates'
+import {CellStates} from '../enums/CellStates'
 
 export class GameField {
 	public cells: Cell[][];
@@ -7,8 +7,12 @@ export class GameField {
 	private fieldSize: number;
 
 	public constructor(fieldSize: number = 3) {
+		this.cells = [];
 
 		for (let i = 0; i < fieldSize; i++) {
+			
+			this.cells[i] = [];
+
 			for (let j = 0; j < fieldSize; j++) {
 				this.cells[i][j] = new Cell();
 			}

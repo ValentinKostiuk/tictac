@@ -1,4 +1,4 @@
-import {CellStates} from "./CellStates"
+import {CellStates} from "../enums/CellStates"
 
 export class Cell {
 	public state : CellStates;
