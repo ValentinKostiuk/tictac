@@ -1,26 +1,37 @@
 import {CellStates} from '../enums/CellStates'
 import {IPlayer} from '../interfaces/IPlayer'
-import {GameField} from "./GameField";
+import {Field} from "../models/Field";
+import {Coordinates} from "../models/Coordinates";
 
 export class SocketPlayer implements IPlayer {
-	public playerType: CellStates;
+	public type: CellStates;
 	private socket;
 
 	constructor(playerType: CellStates, socket: SocketIO.Socket) {
 		this.socket = socket;
-		this.playerType = playerType;
+		this.type = playerType;
+
+		socket.emit('playerType', {playerType: playerType});
 	}
 
-	makeMove() {
-		return new Promise(function () {
+	public makeMove() {
+		let socket = this.socket;
+		return new Promise(function (resolve: Function, reject: Function) {
+			socket.emit('makeMove', {status: ''});
+			socket.once('moveResult', (coordinates: Coordinates) => {
+				resolve(coordinates);
+			})
 		});
 	}
 
-	pushField(field: GameField) {
+	public pushField(field: Field) {
 		this.socket.emit('fieldState', {field: field});
 		console.log('field state sent');
 	}
 
-	pushGameStatus() {
+	public pushGameStatus() {
+		this.socket.emit('gameState', {
+			state: "winner"
+		});
 	}
 }

@@ -1,8 +1,9 @@
 import {CellStates} from '../enums/CellStates'
 import {GameField} from '../classes/GameField'
+import {Field} from "../models/Field";
 export interface IPlayer {
-	//new (playerType : CellStates, socket?: Socket);
+	type: CellStates;
 	makeMove (/*TODO: implement move info class*/) : Promise<any>;
-	pushField (field : GameField): void;
+	pushField (field : Field): void;
 	pushGameStatus (): void;
 }
