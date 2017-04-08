@@ -23,7 +23,7 @@ module.exports = function (server : Server, io) {
 		} else {
 			let partnerSocket = waitingForPair.pop();
 			partnerSocket.emit('status', {status: 'partner found'});
-			socket.emit('status', {status: 'partner found'});
+			socket.emit('status', {status: 'partner found'});  //TODO: move to app messages enum ~
 			console.log('partner found passing sockets to game');
 			var player1 = new SocketPlayer(CellStates.cross, partnerSocket);
 			var player2 = new SocketPlayer(CellStates.nought, socket);

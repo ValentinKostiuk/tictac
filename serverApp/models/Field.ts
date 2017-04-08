@@ -1,6 +1,6 @@
-import {Cell} from '../classes/Cell'
+import {Cell} from './Cell'
 
-export class Field {//TODO: extract Cell model
+export class Field {
 	public cells: Cell[][];
 	public fieldSize: number;
 

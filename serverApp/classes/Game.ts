@@ -3,6 +3,8 @@ import {IPlayer} from "../interfaces/IPlayer";
 import {GameField} from "./GameField";
 import {FieldToFieldModel} from "../converters/FieldToFieldModel";
 import {Coordinates} from '../models/Coordinates'
+import {MakeMove} from "../models/MakeMove";
+import * as Chalk from "chalk";
 
 export class Game {
 	public player1: IPlayer;
@@ -20,26 +22,38 @@ export class Game {
 		this.iterateGame();
 	}
 
-	private processMoveResult(coordinates: Coordinates): void {
-		console.log('got coords', coordinates);
-		this.field.makeMove(coordinates, this.activePlayer.type);
+	private processValidMoveResult(coordinates: Coordinates): void {
+
+		this.field.saveMove(coordinates, this.activePlayer.type);
+
 		let oppositePlayer = this.getOppositePlayer(this.activePlayer);
 		let fieldState = this.field.getFieldState();
-		console.log(fieldState);
+
 		if (fieldState === CellStates.empty) {
 			this.activePlayer = oppositePlayer;
 			this.pushFieldToPlayers();
 			this.iterateGame();
 		} else {
-			console.log("ALTERNATE REALITY");
 			this.activePlayer.pushGameStatus();
 		}
 	}
 
 	private iterateGame(): void {
-		console.log('iteration', this.activePlayer.type);
-		let makeMovePromise = this.activePlayer.makeMove();
-		makeMovePromise.then(coordinates => this.processMoveResult(coordinates))
+
+		let fieldModel = FieldToFieldModel.convert(this.field);
+		let makeMoveModel = new MakeMove(fieldModel);
+		let makeMovePromise = this.activePlayer.makeMove(makeMoveModel);
+
+		makeMovePromise.then(coordinates => {
+
+			if(this.field.isCellValidForMove(coordinates)) {
+				this.processValidMoveResult(coordinates);
+				console.log(Chalk.green('Valid'));
+			} else {
+				console.log(Chalk.red('Invalid'));
+				this.iterateGame();
+			}
+		})
 	}
 
 	private pushFieldToPlayers(): void {

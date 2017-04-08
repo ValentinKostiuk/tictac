@@ -18,16 +18,16 @@
 			console.log(data);
 		});
 
-		socket.on('playerType', function (data) {
-			console.log('playerType', data.playerType);
-			playerType = data.playerType;
+		socket.on('PlayerSettings', function (data) {
+			console.log('PlayerSettings', data.type);
+			playerType = data.type;
 		});
 
-		socket.on('fieldState', function (data) {
+		socket.on('FieldState', function (data) {
 			console.log(data);
 		});
 
-		socket.on('gameState', function (data) {
+		socket.on('GameState', function (data) {
 			console.log('HELLO', data);
 		});
 
@@ -47,15 +47,15 @@
 			}
 		];
 
-		socket.on('makeMove', function (data) {
+		socket.on('MakeMove', function (data) {
 			console.info('got make move');
 			setTimeout(function () {
 				if(playerType == 1) {
-					socket.emit('moveResult', moves[iteration]);
+					socket.emit('MoveResult', moves[iteration]);
 					console.warn('resultSent');
 					iteration++;
 				} else {
-					socket.emit('moveResult', {
+					socket.emit('MoveResult', {
 						x: 1,
 						y: 2
 					});

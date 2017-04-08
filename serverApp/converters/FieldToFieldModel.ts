@@ -1,5 +1,5 @@
 import {GameField} from '../classes/GameField'
-import {Cell} from '../classes/Cell'
+import {Cell} from '../models/Cell'
 import {Field} from '../models/Field'
 
 export class FieldToFieldModel {

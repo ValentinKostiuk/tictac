@@ -23,7 +23,7 @@ export class GameField {
 		this.scores = Array.apply(null, Array(2 * fieldSize + 2)).map(Number.prototype.valueOf, 0);
 	}
 
-	public makeMove(coordinates: Coordinates, playerMark: CellStates): void {  //sets state of chosen cell and adds scores for each field dimension
+	public saveMove(coordinates: Coordinates, playerMark: CellStates): void {  //sets state of chosen cell and adds scores for each field dimension
 		let point = playerMark === CellStates.cross ? 1 : -1;
 
 		this.cells[coordinates.x][coordinates.y].state = playerMark;
@@ -44,11 +44,16 @@ export class GameField {
 	public getFieldState(): CellStates {//returns winner player type or null
 		let length = 2 * this.fieldSize + 2;
 		for (let i = 0; i < length; i += 1) {
-			console.log(Math.abs(this.scores[i]));
 			if (Math.abs(this.scores[i]) === this.fieldSize) {
 				return this.scores[i] > 0 ? CellStates.cross : CellStates.nought;
 			}
 		}
 		return CellStates.empty;
+	}
+
+	public isCellValidForMove(coordinates: Coordinates): boolean {
+		let x = coordinates.x;
+		let y = coordinates.y;
+		return x < this.fieldSize && y < this.fieldSize && this.cells[x][y].state === CellStates.empty;
 	}
 }

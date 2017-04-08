@@ -3,3 +3,5 @@
 .idea/
 **.js
 test/
+!/karma.conf.js
+!/systemjs.config.js
