@@ -1,3 +1,4 @@
+import * as Chalk from "chalk";
 let express = require('express');
 let app = express();
 let url = require('url');
@@ -53,5 +54,5 @@ app.get('/*', filterNotAllowedFiles);
 app.use('/', express.static('./'));
 
 server.listen(3000, function () {
-	console.log('Example app listening on port 3000!');
+	console.log(Chalk.bgGreen.gray('Example app listening on port 3000!'));
 });
