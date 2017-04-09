@@ -1,11 +1,13 @@
 import * as Chalk from "chalk";
+import {AppConfig} from "../shared/configuration/appConfig";
+
 let express = require('express');
 let app = express();
 let url = require('url');
 let server = require('http').createServer(app);
 let io = require('socket.io')(server);
 
-let allowedFolders = ['/app', '/resources', '/node_modules'];
+let allowedFolders = ['/app', '/resources', '/node_modules', '/shared'];
 let allowedExtensions = ['html', 'css', 'js'];
 
 let socketsRouter = require('./routers/socketsRouter')(server, io);
@@ -36,6 +38,7 @@ let extensionsRegExp = getIsExtensionAllowedRegExp();
 let foldersRegExp = getIsFolderAllowedRegExp();
 
 function getIsValidPath(path) {
+	console.log(Chalk.blue(path), foldersRegExp.test(path), extensionsRegExp.test(path));
 	return foldersRegExp.test(path) && extensionsRegExp.test(path);
 }
 
@@ -53,6 +56,6 @@ app.get('/*', filterNotAllowedFiles);
 
 app.use('/', express.static('./'));
 
-server.listen(3000, function () {
-	console.log(Chalk.bgGreen.gray('Example app listening on port 3000!'));
+server.listen(AppConfig.appPort, AppConfig.appHost, function () {
+	console.log(Chalk.bgGreen.gray('Example app listening on port '+ AppConfig.appPort +'!'));
 });
