@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "karma start -w",
-    "start": "tsc && concurrently \"tsc -w\" \"node ./expressServer/index.js\" ",
-    "server": "node ./expressServer/index.js",
+    "start": "tsc && concurrently \"tsc -w\" \"node ./serverApp/index.js\" ",
+    "server": "node ./serverApp/index.js",
     "tsc": "tsc",
     "tsc:w": "tsc -w"
   },

@@ -7,7 +7,7 @@ let io = require('socket.io')(server);
 let allowedFolders = ['/app', '/resources', '/node_modules'];
 let allowedExtensions = ['html', 'css', 'js'];
 
-let socketsRouter = require('../serverApp/socketsRouter')(server, io);
+let socketsRouter = require('./routers/socketsRouter')(server, io);
 
 function escapeRegExp(str) {
 	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');

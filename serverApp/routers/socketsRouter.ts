@@ -1,7 +1,7 @@
 'use strict';
 import Socket = SocketIO.Socket;
 import Server = SocketIO.Server;
-import {GameApp} from "./classes/GameApp";
+import {GameApp} from "../classes/GameApp";
 
 module.exports = function (server: Server, io) {
 
