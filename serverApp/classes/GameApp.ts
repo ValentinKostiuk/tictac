@@ -1,6 +1,9 @@
-import {CellStates} from "../enums/CellStates";
+import {CellStates} from "../../shared/enums/CellStates";
+import {AppMessageTypes} from "../../shared/enums/AppMessageTypes";
+import {AppStates} from "../../shared/enums/AppStates";
 import {SocketPlayer} from "./SocketPlayer";
 import {Game} from "./Game";
+import {AppStatus} from "../../shared/models/AppStatus";
 
 export class GameApp {
 
@@ -19,15 +22,28 @@ export class GameApp {
 
 		if (this.waitingForPair.length === 0) {
 			this.waitingForPair.push(socket);
-			socket.emit('status', {status: 'waiting for pair'});
+			socket.emit(AppMessageTypes.Status, {
+				status: AppStates.WaitingForPartner
+			});
 
 		} else {
 			let partnerSocket = this.waitingForPair.pop();
-			partnerSocket.emit('status', {status: 'partner found'});
-			socket.emit('status', {status: 'partner found'});  //TODO: move to app messages enum ~
-			console.log('partner found passing sockets to game');
+
+			let partnerStatus = new AppStatus();
+			partnerStatus.status = AppStates.PartnerFound;
+
+			partnerSocket.emit(AppMessageTypes.Status, {
+				status: AppStates.PartnerFound
+			});
+
+			let status = new AppStatus();
+			status.status = AppStates.PartnerFound;
+
+			socket.emit(AppMessageTypes.Status, status);
+
 			let player1 = new SocketPlayer(CellStates.cross, partnerSocket);
 			let player2 = new SocketPlayer(CellStates.nought, socket);
+
 			let game = new Game(player1, player2);
 		}
 	}

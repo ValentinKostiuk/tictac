@@ -1,6 +1,6 @@
 import {Cell} from './Cell'
-import {CellStates} from '../enums/CellStates'
-import {Coordinates} from '../models/Coordinates'
+import {CellStates} from '../../shared/enums/CellStates'
+import {Coordinates} from '../../shared/models/Coordinates'
 
 export class GameField {
 	public cells: Cell[][];

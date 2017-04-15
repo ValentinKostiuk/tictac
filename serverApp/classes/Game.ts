@@ -1,9 +1,9 @@
-import {CellStates} from "../enums/CellStates"
+import {CellStates} from "../../shared/enums/CellStates"
 import {IPlayer} from "../interfaces/IPlayer";
 import {GameField} from "./GameField";
 import {FieldToFieldModel} from "../converters/FieldToFieldModel";
-import {Coordinates} from '../models/Coordinates'
-import {MakeMove} from "../models/MakeMove";
+import {Coordinates} from '../../shared/models/Coordinates'
+import {MakeMove} from "../../shared/models/MakeMove";
 import * as Chalk from "chalk";
 
 export class Game {

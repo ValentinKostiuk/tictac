@@ -1,6 +1,6 @@
 import {GameField} from '../classes/GameField'
-import {Cell} from '../models/Cell'
-import {Field} from '../models/Field'
+import {Cell} from '../../shared/models/Cell'
+import {Field} from '../../shared/models/Field'
 
 export class FieldToFieldModel {
 

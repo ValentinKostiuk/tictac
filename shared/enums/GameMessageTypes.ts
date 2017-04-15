@@ -1,6 +1,6 @@
 import { Enum } from "typescript-string-enums";
 
-export const MessageTypes = Enum(
+export const GameMessageTypes = Enum(
 	"MakeMove",
 	"MoveResult",
 	"FieldState",
@@ -8,4 +8,4 @@ export const MessageTypes = Enum(
 	"PlayerSettings"
 );
 
-export type MessageTypes = Enum<typeof MessageTypes>;
+export type GameMessageTypes = Enum<typeof GameMessageTypes>;

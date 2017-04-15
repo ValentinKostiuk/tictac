@@ -1,7 +1,7 @@
-import {CellStates} from '../enums/CellStates'
-import {Field} from "../models/Field";
-import {Coordinates} from "../models/Coordinates";
-import {MakeMove} from "../models/MakeMove";
+import {CellStates} from '../../shared/enums/CellStates'
+import {Field} from "../../shared/models/Field";
+import {Coordinates} from "../../shared/models/Coordinates";
+import {MakeMove} from "../../shared/models/MakeMove";
 export interface IPlayer {
 	type: CellStates;
 	makeMove (model: MakeMove) : Promise<Coordinates>;

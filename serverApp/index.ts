@@ -38,7 +38,7 @@ let extensionsRegExp = getIsExtensionAllowedRegExp();
 let foldersRegExp = getIsFolderAllowedRegExp();
 
 function getIsValidPath(path) {
-	console.log(Chalk.blue(path), foldersRegExp.test(path), extensionsRegExp.test(path));
+	//console.log(Chalk.blue(path), foldersRegExp.test(path), extensionsRegExp.test(path));
 	return foldersRegExp.test(path) && extensionsRegExp.test(path);
 }
 
