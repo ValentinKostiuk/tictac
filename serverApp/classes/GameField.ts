@@ -1,6 +1,7 @@
 import {Cell} from './Cell'
 import {CellStates} from '../../shared/enums/CellStates'
 import {Coordinates} from '../../shared/models/Coordinates'
+import * as Chalk from "chalk";
 
 export class GameField {
 	public cells: Cell[][];
@@ -45,7 +46,9 @@ export class GameField {
 		let length = 2 * this.fieldSize + 2;
 		for (let i = 0; i < length; i += 1) {
 			if (Math.abs(this.scores[i]) === this.fieldSize) {
-				return this.scores[i] > 0 ? CellStates.cross : CellStates.nought;
+				let result = this.scores[i] > 0 ? CellStates.cross : CellStates.nought;
+				console.log(Chalk.bgBlue.black("And Winner is: " + result));
+				return result;
 			}
 		}
 		return CellStates.empty;

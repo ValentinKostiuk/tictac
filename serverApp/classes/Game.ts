@@ -29,9 +29,9 @@ export class Game {
 		let oppositePlayer = this.getOppositePlayer(this.activePlayer);
 		let fieldState = this.field.getFieldState();
 
+		this.pushFieldToPlayers();
 		if (fieldState === CellStates.empty) {
 			this.activePlayer = oppositePlayer;
-			this.pushFieldToPlayers();
 			this.iterateGame();
 		} else {
 			this.activePlayer.pushGameStatus();
@@ -47,10 +47,10 @@ export class Game {
 		makeMovePromise.then(coordinates => {
 
 			if(this.field.isCellValidForMove(coordinates)) {
+				console.log(Chalk.green('Valid Move'));
 				this.processValidMoveResult(coordinates);
-				console.log(Chalk.green('Valid'));
 			} else {
-				console.log(Chalk.red('Invalid'));
+				console.log(Chalk.red('Invalid Move'));
 				this.iterateGame();
 			}
 		})
