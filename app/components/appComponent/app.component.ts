@@ -4,16 +4,15 @@ import {AppStates} from "../../../shared/enums/AppStates";
 
 @Component({
 	selector: 'tic-tac-app',
-	templateUrl: "./app/components/appComponent/app.component.html"
+	templateUrl: "./app/components/appComponent/app.component.html",
+	styleUrls: ['./app/components/appComponent/app.component.css']
 })
 export class AppComponent {
-	private appState: AppStates;
 	private showGame: boolean;
 
 	constructor(private appService: AppService) {
 		appService.appStateSource$.subscribe(
 			(appState: AppStates) => {
-				this.appState = appState;
 				this.showGame = appState === AppStates.PartnerFound;
 			});
 	}

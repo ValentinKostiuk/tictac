@@ -1,4 +1,5 @@
 <div>
-	<h1>{{appState}}</h1>
+	<h1 *ngIf="!showGame">Searching For Partner</h1>
+	<h1 *ngIf="showGame">Game started</h1>
 	<game>Loading Game...</game>
 </div>

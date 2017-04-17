@@ -1,0 +1,19 @@
+div {
+	position: relative;
+}
+
+h1 {
+	position: relative;
+	color: #336699;
+	-webkit-animation: spin 6s ease infinite;
+	-moz-animation: spin 6s ease infinite;
+	animation: spin 6s ease infinite;
+}
+
+@keyframes spin {
+	100% {
+		-webkit-transform: rotateX(360deg);
+		transform: rotateX(360deg);
+		transform-origin: center center;
+	}
+}

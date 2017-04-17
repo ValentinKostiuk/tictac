@@ -6,7 +6,8 @@ import {CellStates} from "../../../shared/enums/CellStates";
 
 @Component({
 	selector: 'field',
-	templateUrl: "./app/components/fieldComponent/field.component.html"
+	templateUrl: "./app/components/fieldComponent/field.component.html",
+	styleUrls: ["./app/components/fieldComponent/field.component.css"]
 })
 
 export class FieldComponent {

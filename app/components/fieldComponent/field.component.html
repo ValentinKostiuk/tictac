@@ -1,4 +1,4 @@
-<table *ngIf="field" style="border: 1px solid #000000;">
+<table *ngIf="field">
 	<tr *ngFor="let row of field.cells">
 		<cell *ngFor="let cell of row" [cell]="cell" (onCellClicked)="onCellClicked($event)"></cell>
 	</tr>

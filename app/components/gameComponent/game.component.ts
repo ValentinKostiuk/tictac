@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {GameService} from "../../services/GameService";
 import {Field} from "../../../shared/models/Field";
 import {Coordinates} from "../../../shared/models/Coordinates";
+import {PlayerSettings} from "../../../shared/models/PlayerSettings";
 
 @Component({
 	selector: 'game',
@@ -10,12 +11,16 @@ import {Coordinates} from "../../../shared/models/Coordinates";
 
 export class GameComponent {
 	private field: Field;
+	private moveAllowed: boolean;
+	private playerSettings: PlayerSettings;
 
 	constructor(private gameService: GameService) {
 		gameService.fieldSource$.subscribe((field: Field) => this.updateField(field));
+		gameService.makeMoveSource$.subscribe((allowed: boolean) => this.setAllowedToMakeMove(allowed));
+		gameService.playerSettingsSource$.subscribe((playerSettings: PlayerSettings) => this.setPlayerSettings(playerSettings));
 	}
 
-	public updateField(field: Field) {
+	private updateField(field: Field) {
 		if (!this.field) {
 			this.field = field;
 
@@ -30,7 +35,18 @@ export class GameComponent {
 		}
 	}
 
-	public onMoveMade (coordinates: Coordinates): void {
-		this.gameService.moveMade(coordinates);
+	private setAllowedToMakeMove(allowed: boolean): void {
+		this.moveAllowed = true;
+	}
+
+	private setPlayerSettings(playerSettings: PlayerSettings): void {
+		this.playerSettings = playerSettings;
+	}
+
+	public onMoveMade(coordinates: Coordinates): void {
+		if(this.moveAllowed) {
+			this.gameService.moveMade(coordinates);
+			this.moveAllowed = false;
+		}
 	}
 }

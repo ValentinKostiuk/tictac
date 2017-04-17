@@ -1,4 +1,4 @@
-<div>
-	<h2>Game I am</h2>
-	<field [field]="field" (onMoveMade)="onMoveMade($event)"></field>
-</div>
+<h2 *ngIf="playerSettings">You are playing with {{playerSettings.type === 0 ? ' ' : playerSettings.type === 1 ? 'O' : 'X'}}-s</h2>
+<field [field]="field" (onMoveMade)="onMoveMade($event)"></field>
+<br />
+<h2>{{moveAllowed? 'Make Your Move' : 'Wait For Your Turn'}}</h2>
