@@ -1,4 +1,5 @@
 <h2 *ngIf="playerSettings">You are playing with {{playerSettings.type === 0 ? ' ' : playerSettings.type === 1 ? 'O' : 'X'}}-s</h2>
 <field [field]="field" (onMoveMade)="onMoveMade($event)"></field>
 <br />
-<h2>{{moveAllowed? 'Make Your Move' : 'Wait For Your Turn'}}</h2>
+<h2 *ngIf="gameState === null">{{moveAllowed? 'Make Your Move' : 'Wait For Your Turn'}}</h2>
+<h2 *ngIf="gameState !== null">{{gameState === 'Win'? 'You Won!!!' : 'You Lose!'}}</h2>

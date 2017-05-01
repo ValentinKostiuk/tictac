@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {Cell} from "../../../shared/models/Cell";
 
 @Component({
-	selector: 'cell',
+	selector: "cell",
 	templateUrl: "./app/components/cellComponent/cell.component.html",
-	styleUrls: ['./app/components/cellComponent/cell.component.css']
+	styleUrls: ["./app/components/cellComponent/cell.component.css"]
 })
 
 export class CellComponent {

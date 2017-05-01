@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {AppConfig} from "../../shared/configuration/appConfig";
 import * as io from "socket.io-client";
 import {AppMessageTypes} from "../../shared/enums/AppMessageTypes"

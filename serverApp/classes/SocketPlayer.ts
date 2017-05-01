@@ -1,9 +1,10 @@
-import {CellStates} from '../../shared/enums/CellStates'
-import {IPlayer} from '../interfaces/IPlayer'
+import {CellStates} from "../../shared/enums/CellStates"
+import {IPlayer} from "../interfaces/IPlayer"
 import {Field} from "../../shared/models/Field";
 import {Coordinates} from "../../shared/models/Coordinates";
 import {GameMessageTypes} from "../../shared/enums/GameMessageTypes";
 import {PlayerSettings} from "../../shared/models/PlayerSettings";
+import {GameStatus} from "../../shared/models/GameStatus"
 
 export class SocketPlayer implements IPlayer {
 	public type: CellStates;
@@ -33,10 +34,8 @@ export class SocketPlayer implements IPlayer {
 		this.socket.emit(GameMessageTypes.FieldState, field);
 	}
 
-	public pushGameStatus(): void {
-		this.socket.emit(GameMessageTypes.GameState, {
-			state: "winner"
-		});
+	public pushGameStatus(gameStatus: GameStatus): void {
+		this.socket.emit(GameMessageTypes.GameState, gameStatus);
 	}
 
 	private pushPlayerSettings(settings: PlayerSettings): void {

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {Field} from "../../shared/models/Field";
 import {GameMessageTypes} from "../../shared/enums/GameMessageTypes";
 import {Subject} from "rxjs/Subject";
@@ -6,6 +6,8 @@ import {Observable} from "rxjs/Observable";
 import {Coordinates} from "../../shared/models/Coordinates";
 import {MakeMove} from "../../shared/models/MakeMove";
 import {PlayerSettings} from "../../shared/models/PlayerSettings";
+import {GameStatus} from "../../shared/models/GameStatus";
+import {GameStates} from "../../shared/enums/GameStates";
 
 @Injectable()
 export class GameService {
@@ -19,6 +21,9 @@ export class GameService {
 
 	private playerSettingsSource = new Subject<PlayerSettings>();
 	public playerSettingsSource$: Observable<PlayerSettings> = this.playerSettingsSource.asObservable();
+
+	private gameStatusSource = new Subject<GameStates>();
+	public gameStatusSource$: Observable<GameStates> = this.gameStatusSource.asObservable();
 
 	public startGame(socket: SocketIO.Socket): void {
 		this.socket = socket;
@@ -42,9 +47,14 @@ export class GameService {
 		this.makeMoveSource.next(true);
 	}
 
+	private handleGameState (gameStatus: GameStatus){
+		this.gameStatusSource.next(gameStatus.status);
+	}
+
 	private subscribeConnectionEvents(): void {
 		this.socket.on(GameMessageTypes.FieldState, (field: Field) => this.handleFieldState(field));
 		this.socket.on(GameMessageTypes.MakeMove, (makeMove: MakeMove) => this.handleMakeMove(makeMove));
 		this.socket.on(GameMessageTypes.PlayerSettings, (playerSettings: PlayerSettings) => this.handlePlayerSettings(playerSettings));
+		this.socket.on(GameMessageTypes.GameState, (gameStatus: GameStatus) => this.handleGameState(gameStatus));
 	}
 }

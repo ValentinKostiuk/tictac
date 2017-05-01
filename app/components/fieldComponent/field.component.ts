@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {Field} from "../../../shared/models/Field";
 import {Cell} from "../../../shared/models/Cell";
 import {Coordinates} from "../../../shared/models/Coordinates";
 import {CellStates} from "../../../shared/enums/CellStates";
 
 @Component({
-	selector: 'field',
+	selector: "field",
 	templateUrl: "./app/components/fieldComponent/field.component.html",
 	styleUrls: ["./app/components/fieldComponent/field.component.css"]
 })

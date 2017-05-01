@@ -2,9 +2,11 @@ import {CellStates} from "../../shared/enums/CellStates"
 import {IPlayer} from "../interfaces/IPlayer";
 import {GameField} from "./GameField";
 import {FieldToFieldModel} from "../converters/FieldToFieldModel";
-import {Coordinates} from '../../shared/models/Coordinates'
+import {Coordinates} from "../../shared/models/Coordinates"
 import {MakeMove} from "../../shared/models/MakeMove";
 import * as Chalk from "chalk";
+import {GameStatus} from "../../shared/models/GameStatus";
+import {GameStates} from "../../shared/enums/GameStates";
 
 export class Game {
 	public player1: IPlayer;
@@ -34,7 +36,7 @@ export class Game {
 			this.activePlayer = oppositePlayer;
 			this.iterateGame();
 		} else {
-			this.activePlayer.pushGameStatus();
+			this.pushGameStateToPlayers(this.activePlayer);
 		}
 	}
 
@@ -46,11 +48,11 @@ export class Game {
 
 		makeMovePromise.then(coordinates => {
 
-			if(this.field.isCellValidForMove(coordinates)) {
-				console.log(Chalk.green('Valid Move'));
+			if (this.field.isCellValidForMove(coordinates)) {
+				console.log(Chalk.green("Valid Move"));
 				this.processValidMoveResult(coordinates);
 			} else {
-				console.log(Chalk.red('Invalid Move'));
+				console.log(Chalk.red("Invalid Move"));
 				this.iterateGame();
 			}
 		})
@@ -60,6 +62,17 @@ export class Game {
 		let fieldModel = FieldToFieldModel.convert(this.field);
 		this.player1.pushField(fieldModel);
 		this.player2.pushField(fieldModel);
+	}
+
+	private  pushGameStateToPlayers(winner: IPlayer): void {
+		let winnerGameStatus = new GameStatus();
+		winnerGameStatus.status = GameStates.Win;
+		winner.pushGameStatus(winnerGameStatus);
+
+		let loser = this.getOppositePlayer(winner);
+		let loserGameStatus = new GameStatus();
+		loserGameStatus.status = GameStates.Lose;
+		loser.pushGameStatus(loserGameStatus);
 	}
 
 	private getOppositePlayer(player: IPlayer): IPlayer {
